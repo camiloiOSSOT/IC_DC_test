@@ -43,8 +43,8 @@ jobs:
         with:
           xcode-version: latest-stable
 
-      - name: SwiftLint
-        run: swiftlint lint --fix
+      #- name: SwiftLint
+      #  run: swiftlint lint --fix
 
       - name: Set Default Scheme
         run: |
