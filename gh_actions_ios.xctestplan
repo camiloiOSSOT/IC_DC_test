@@ -1,0 +1,29 @@
+{
+  "configurations" : [
+    {
+      "id" : "8BF95A2C-8234-483A-A1F8-2A473E34030A",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:gh_actions_ios.xcodeproj",
+      "identifier" : "5ED549F22BA9F79000EA9526",
+      "name" : "gh_actions_ios"
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:gh_actions_ios.xcodeproj",
+        "identifier" : "5EB4A4ED2BAA01CD0038187D",
+        "name" : "gh_actions_iosTests"
+      }
+    }
+  ],
+  "version" : 1
+}
