@@ -22,9 +22,6 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
 
-      - name: check Xcode version
-        run: /usr/bin/xcodebuild -version
-
       # Runs multi command from DEMO
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
@@ -37,6 +34,17 @@ jobs:
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
+
+      - uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      #Ensure the xcode version is available    
+      - name: List Xcode installations
+        run: sudo ls -1 /Applications | grep "Xcode"
+
+      - name: check Xcode version
+        run: /usr/bin/xcodebuild -version
 
 #      - name: SwiftLint
 #        run: swiftlint lint --strict
