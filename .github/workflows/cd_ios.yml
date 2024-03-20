@@ -52,7 +52,7 @@ jobs:
 
       - name: Build Archive
         env:
-          scheme: ${{ 'default' }
+          scheme: ${{ 'default' }}
         run: |
           xcodebuild -scheme "$scheme" \
           -archivePath $RUNNER_TEMP/ghactions.xcarchive \
