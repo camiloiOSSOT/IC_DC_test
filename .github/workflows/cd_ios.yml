@@ -1,0 +1,63 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CD
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+#  pull_request:
+#    branches: [ "develop" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+    branches: [ "develop" ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: macos-14
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+
+      # Runs multi command from DEMO
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}
+
+      #Ensure the xcode version is available    
+      - name: List Xcode installations
+        run: sudo ls -1 /Applications | grep "Xcode"
+
+      - uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - name: Set Default Scheme
+        run: |
+          scheme_list=$(xcodebuild -list -json | tr -d "\n")
+          default=$(echo $scheme_list | ruby -e "require 'json'; puts JSON.parse(STDIN.gets)['project']['targets'][0]")
+          echo $default | cat >default
+          echo Using default scheme: $default
+
+      - name: Build Archive
+        env:
+          scheme: ${{ 'default' }
+        run: |
+          xcodebuild -scheme "$scheme" \
+          -archivePath $RUNNER_TEMP/ghactions.xcarchive \
+          -sdk iphoneos \
+          -configuration Debug \
+          -destination generic/platform=iOS \
+          clean archive
